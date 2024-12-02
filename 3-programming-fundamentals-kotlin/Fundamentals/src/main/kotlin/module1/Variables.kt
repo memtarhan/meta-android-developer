@@ -1,4 +1,4 @@
-package week1
+package module1
 
 /*
 -- val is an abbreviation of 'value'. You use this modifier to specify variables that cannot be reassigned. In other words,

@@ -1,4 +1,4 @@
-package week1
+package module1
 
 fun main() {
     val a = 10 // the type of a is Int
