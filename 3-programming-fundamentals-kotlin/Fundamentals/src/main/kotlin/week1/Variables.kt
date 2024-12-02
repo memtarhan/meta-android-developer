@@ -1,5 +1,16 @@
 package week1
 
+/*
+-- val is an abbreviation of 'value'. You use this modifier to specify variables that cannot be reassigned. In other words,
+code will not start if you try to assign a new value. As a consequence, they always represent the value that was
+assigned when the variables were created. That is why it makes sense to say that such variables represent a single value
+
+
+-- var is an abbreviation of 'variable'. You use this modifier to specify variables that can be reassigned. So their value
+can change when the code runs, for example, being initially assigned a value of zero, then later being assigned a
+value of 1.
+
+ */
 // Variables, values and types
 fun main() {
     // Variables
