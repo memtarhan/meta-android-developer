@@ -24,8 +24,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.memtarhan.com.littlelemon.R.string.chicago
-import com.memtarhan.com.littlelemon.R.string.order
+import com.memtarhan.com.littlelemon.R.string.location
+import com.memtarhan.com.littlelemon.R.string.orderbuttontext
 
 @Composable
 fun UpperPanel() {
@@ -46,7 +46,7 @@ fun UpperPanel() {
         )
 
         Text(
-            text = stringResource(id = chicago),
+            text = stringResource(id = location),
             fontSize = 24.sp,
             color = Color.White,
             modifier = Modifier.padding(start = 20.dp),
@@ -85,7 +85,7 @@ fun UpperPanel() {
                 contentColor = Color.Black
             )
         ) {
-            Text(text = stringResource(order))
+            Text(text = stringResource(orderbuttontext))
         }
 
     }
