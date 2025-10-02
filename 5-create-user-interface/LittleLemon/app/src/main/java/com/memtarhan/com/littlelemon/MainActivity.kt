@@ -1,98 +1,121 @@
 package com.memtarhan.com.littlelemon
 
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.Clear
+import androidx.compose.material.*
 import androidx.compose.material3.Button
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.TextFieldValue
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
+import com.memtarhan.com.littlelemon.ui.theme.LittleLemonTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContent {
-            HomeScreen()
+            LittleLemonTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background,
+                ) {
+                    LoginScreen()
+                }
+            }
         }
     }
 }
 
+@Preview(showBackground = true)
 @Composable
-fun HomeScreen() {
-    var count by rememberSaveable {
-        mutableIntStateOf(0)
-    }
-    ItemOrder(count = count, { count++ }, { count-- })
+fun LoginScreenPreview(){
+    LoginScreen()
 }
 
-
 @Composable
-private fun ItemOrder(count: Int, onIncrement: () -> Unit, onDecrement: () -> Unit) {
-
-
-    Column(horizontalAlignment = Alignment.CenterHorizontally) {
-        Text(
-            text = "Greek Salad",
-            fontSize = 30.sp
+fun LoginScreen(){
+    val context = LocalContext.current
+    var username by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    var password by remember {
+        mutableStateOf(TextFieldValue(""))
+    }
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
+    ) {
+        Image(
+            painter = painterResource(
+                id = R.drawable.littlelemonlogo),
+            contentDescription = "Logo Image",
+            modifier = Modifier.padding(10.dp)
         )
-
-        Row(
-            Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            IconButton(onClick = {
-                onDecrement()
-            }) {
-                Icon(
-                    imageVector = Icons.Default.Clear,
-                    contentDescription = "Remove"
-                )
-            }
-
-            Text(
-                text = "$count",
-                fontSize = 28.sp,
-                fontWeight = FontWeight.Bold,
-                modifier = Modifier.padding(8.dp)
-            )
-
-            IconButton(onClick = {
-                onIncrement()
-            }) {
-                Icon(
-                    imageVector = Icons.Default.Add,
-                    contentDescription = "Add"
-                )
-            }
-        }
-
+        TextField(
+            value = username,
+            onValueChange = {
+                username = it
+            },
+            label = { Text(text = "Username") },
+            modifier = Modifier.padding(10.dp)
+        )
+        TextField(
+            value = password,
+            onValueChange = {
+                password = it
+            },
+            label = { Text(text = "Password") },
+            visualTransformation = PasswordVisualTransformation(),
+            modifier = Modifier.padding(10.dp),
+        )
         Button(
-            onClick = {}, Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 20.dp)
+            onClick = {
+                Log.d("AAA", "${username.text}")
+                Log.d("AAA", "${password.text}")
+                if(username.text == "darian"
+                    && password.text=="littlelemon"
+                ){
+                    Toast.makeText(context,
+                        "Welcome to Little Lemon!",
+                        Toast.LENGTH_LONG
+                    ).show()
+                } else {
+                    Toast.makeText(context,
+                        "Invalid credentials."
+                                + "Please try again.",
+                        Toast.LENGTH_LONG
+                    ).show()
+                }
+            },
+            colors = ButtonDefaults.buttonColors(
+                Color(0xFF495E57)
+            ),
+            modifier = Modifier.padding(10.dp)
         ) {
-            Text(text = "Add")
+            Text(
+                text = "Login",
+                color = Color(0xFFEDEFEE)
+            )
         }
     }
 }
