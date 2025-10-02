@@ -19,7 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -33,25 +32,23 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            ItemOrder()
+            HomeScreen()
         }
     }
 }
 
 @Composable
 fun HomeScreen() {
-    Column {
-        UpperPanel()
-        LowerPanel()
+    var count by rememberSaveable {
+        mutableIntStateOf(0)
     }
+    ItemOrder(count = count, { count++ }, { count-- })
 }
 
 
 @Composable
-private fun ItemOrder() {
-    var count by rememberSaveable {
-        mutableIntStateOf(0)
-    }
+private fun ItemOrder(count: Int, onIncrement: () -> Unit, onDecrement: () -> Unit) {
+
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Text(
@@ -65,7 +62,7 @@ private fun ItemOrder() {
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = {
-                count--
+                onDecrement()
             }) {
                 Icon(
                     imageVector = Icons.Default.Clear,
@@ -81,7 +78,7 @@ private fun ItemOrder() {
             )
 
             IconButton(onClick = {
-                count++
+                onIncrement()
             }) {
                 Icon(
                     imageVector = Icons.Default.Add,
@@ -90,9 +87,11 @@ private fun ItemOrder() {
             }
         }
 
-        Button(onClick = {}, Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 20.dp)) {
+        Button(
+            onClick = {}, Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 20.dp)
+        ) {
             Text(text = "Add")
         }
     }
