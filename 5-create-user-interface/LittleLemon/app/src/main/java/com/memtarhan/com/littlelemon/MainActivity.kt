@@ -4,8 +4,14 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Column
+import androidx.compose.material3.DrawerValue
+import androidx.compose.material3.ExtendedFloatingActionButton
+import androidx.compose.material3.ModalDrawerSheet
+import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -19,18 +25,23 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun HomeScreen() {
-    Scaffold(
-        // top app bar
-        topBar = {
-            TopAppBar()
-        }
-
+    val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
+    val scope = rememberCoroutineScope()
+    ModalNavigationDrawer(
+        drawerState = drawerState,
+        drawerContent = {
+            ModalDrawerSheet { /* Drawer content */ }
+        },
     ) {
-
-        Column {
-            UpperPanel()
-            LowerPanel()
+        Scaffold(
+            topBar = {
+                TopAppBar()
+            }
+        ) { contentPadding ->
+            Column {
+                UpperPanel()
+                LowerPanel()
+            }
         }
-
     }
 }
