@@ -5,22 +5,25 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
-import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.unit.dp
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import com.memtarhan.com.littlelemon.ui.theme.LittleLemonTheme
 import com.memtarhan.com.littlelemon.ui.theme.Pink80
 import com.memtarhan.com.littlelemon.ui.theme.Purple80
 import com.memtarhan.com.littlelemon.ui.theme.PurpleGrey80
@@ -29,17 +32,44 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val materialBlue700 = Color(0xFF1976D2)
-            val scaffoldState = rememberDrawerState(DrawerValue.Closed)
-            Scaffold(
-                topBar = {
-                    TopAppBar()
-                },
-                content = { paddingValues ->
-                    MenuContent(paddingValues = paddingValues)
-                }
-            )
+            LittleLemonTheme {
+                AppScreen()
+            }
         }
+    }
+}
+
+@Composable
+private fun AppScreen() {
+    Scaffold(
+        topBar = {
+            TopAppBar()
+        }
+    ) {
+        Box(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(it)
+        ) {
+            MyNavigation()
+        }
+    }
+}
+
+@Composable
+fun MyNavigation() {
+    val navController = rememberNavController()
+    NavHost(
+        navController = navController,
+        startDestination = Home.route
+    ) {
+        composable(Home.route) {
+            HomeScreen(navController = navController)
+        }
+        composable(Menu.route) {
+            MenuListScreen()
+        }
+
     }
 }
 
